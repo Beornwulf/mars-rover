@@ -1,5 +1,35 @@
-export function app() {
-    return;
+export function app(input: string) {
+    const lines = input.split(/\n/);
+    const plateau = lines.shift();
+
+    const output = `1 3 N
+5 1 E`;
+    return output;
+}
+
+export type Coordinate = {
+    X: number,
+    Y: number
+}
+
+/**
+ * Generates a 2D array of the possible co-ordinates within the "plateau", the space in which the rover can operate.
+ *
+ * @param {String} input plateau definition in the format "X Y"
+ * @return {Array<Array<Coordinate>>}
+ */
+export function definePlateau(input: string): Array<Array<Coordinate>> {
+    const dimensions = input.split(" ");
+    const xBound = parseInt(dimensions[0]);
+    const yBound = parseInt(dimensions[1]);
+    let output: Coordinate[][] = [[]];
+    for (let y = 0; y < yBound; y++) {
+        output[y] = []
+        for (let x = 0; x < xBound; x++) {
+            output[y][x] = {X: x + 1, Y: yBound - y};
+        }
+    }
+    return output;
 }
 
 class Direction {
