@@ -1,22 +1,15 @@
-import {app, rotateLeft, rotateRight} from "./app";
+import {app, CardinalDirection, rotateLeft, rotateRight} from "./app";
 
-describe("app function should run", () => {
-    it("returns", () => {
-        expect(app()).toBeFalsy();
-    })
-})
-
-
-describe.each([
+describe.each<Array<CardinalDirection>>([
     ["N", "W", "E"],
     ["S", "E", "W"],
     ["E", "N", "S"],
     ["W", "S", "N"]
 ])("turning functions correctly", (a, b, c) => {
-    it('should return the correct string turning left', () => {
+    it(`should return ${b} turning left from ${a}`, () => {
         expect(rotateLeft(a)).toEqual(b);
     });
-    it('should return the correct string turning right', () => {
+    it(`should return ${c} turning right from ${a}`, () => {
         expect(rotateRight(a)).toEqual(c);
     });
 })

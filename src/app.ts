@@ -17,7 +17,7 @@ class Direction {
     }
 }
 
-type CardinalDirection = 'N' | 'S' | 'E' | 'W';
+export type CardinalDirection = 'N' | 'S' | 'E' | 'W';
 
 type Compass = {
     [index in CardinalDirection]: Direction;
