@@ -8,8 +8,7 @@ export function app(input: string) {
 }
 
 export type Coordinate = {
-    X: number,
-    Y: number
+    X: number, Y: number
 }
 
 /**
@@ -30,6 +29,17 @@ export function definePlateau(input: string): Array<Array<Coordinate>> {
         }
     }
     return output;
+}
+
+/**
+ * Confirms whether a given location is within the bounds of the provided plateau.
+ *
+ * @param {Array<Array<Coordinate>>} plateau
+ * @param {Coordinate} location
+ * @return {boolean}
+ */
+export function validateLocation(plateau: Array<Array<Coordinate>>, location: Coordinate): boolean {
+    return plateau.flat().some(square => (square.X == location.X && square.Y == location.Y));
 }
 
 class Direction {

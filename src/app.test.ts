@@ -1,4 +1,4 @@
-import {app, CardinalDirection, definePlateau, rotateLeft, rotateRight} from "./app";
+import {app, CardinalDirection, definePlateau, rotateLeft, rotateRight, validateLocation} from "./app";
 
 describe.each<Array<CardinalDirection>>([
     ["N", "W", "E"],
@@ -24,6 +24,15 @@ describe("generating the plateau", () => {
             [{X: 1, Y: 1}, {X: 2, Y: 1}, {X: 3, Y: 1}, {X: 4, Y: 1}, {X: 5, Y: 1}]
         ])
     })
+})
+
+describe("checking a location is in the plateau", () => {
+    it('should return false if out of bounds', () => {
+        expect(validateLocation(definePlateau("2 2"), {X: 3, Y: 1})).toBeFalsy();
+    });
+    it('should return true if in bounds', () => {
+        expect(validateLocation(definePlateau("4 2"), {X: 3, Y: 1})).toBeTruthy();
+    });
 })
 
 const input = `5 5
