@@ -1,10 +1,75 @@
 export function app(input: string) {
     const lines = input.split(/\n/);
-    const plateau = lines.shift();
+    const plateau = definePlateau(<string>lines.shift());
 
-    const output = `1 3 N
-5 1 E`;
-    return output;
+    let rovers: Rover[] = [];
+
+    for (const line of lines) {
+        if (!(line.match(/^[LMR]/))) {
+            const lineSplit = line.split(" ");
+            const origin: Coordinate = {X: parseInt(lineSplit[0]), Y: parseInt(lineSplit[1])}
+            const facing = compass[<CardinalDirection>lineSplit[2]];
+            rovers.push(new Rover(origin, facing));
+        } else {
+            const rover = rovers[rovers.length - 1];
+            let instructions = line.split("");
+            for (const command of instructions) {
+                switch (command) {
+                    case 'M':
+                        rover.advance();
+                        break;
+                    case 'L':
+                        rover.turnLeft();
+                        break;
+                    case 'R':
+                        rover.turnRight();
+                        break;
+                }
+            }
+        }
+    }
+
+    return rovers.map(rover => rover.report()).join("\n");
+}
+
+
+class Rover {
+    location: Coordinate;
+    facing: Direction;
+
+    constructor(location: Coordinate, facing: Direction) {
+        this.location = location;
+        this.facing = facing;
+    }
+
+    turnLeft() {
+        this.facing = compass[<CardinalDirection>rotateLeft(this.facing.name)];
+    }
+
+    turnRight() {
+        this.facing = compass[<CardinalDirection>rotateRight(this.facing.name)];
+    }
+
+    advance() {
+        switch (this.facing.name) {
+            case 'N':
+                this.location = {X: this.location.X, Y: this.location.Y + 1};
+                break;
+            case 'S':
+                this.location = {X: this.location.X, Y: this.location.Y - 1};
+                break;
+            case 'E':
+                this.location = {X: this.location.X + 1, Y: this.location.Y};
+                break;
+            case 'W':
+                this.location = {X: this.location.X - 1, Y: this.location.Y};
+                break;
+        }
+    }
+
+    report() {
+        return `${this.location.X} ${this.location.Y} ${this.facing.name}`
+    }
 }
 
 export type Coordinate = {
